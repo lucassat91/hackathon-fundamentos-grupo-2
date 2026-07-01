@@ -82,46 +82,35 @@
 
 pacientes = []
 
-
-def cadastra_paciente(nome, idade: int, temperatura: float, possui_doenca_cronica: str):
-    pacientes.append = (nome, idade, temperatura, possui_doenca_cronica)
-    for i in range(len(pacientes)):
-        print(pacientes[i])
+def cadastra_paciente(nome: str, idade: int, temperatura: float, possui_doenca_cronica: bool):
+    pacientes.append((nome, idade, temperatura, possui_doenca_cronica))
 
 
 def interface_triagem():
-    try:
+    print('\033c', end='')
+    while True:
+        print('\n'
+                '===== TRIAGEM DE PACIENTES ====='
+                '\n')
         while True:
-            print('\n'
-                  '===== TRIAGEM DE PACIENTES ====='
-                  '\n')
-            while True:
-                nome = input('Digite o nome do paciente: ')
-                if nome in '1234567890':
-                    print('Erro! Use somente caracteres afabéticos.')
-                else:
-                    break
-            while True:
-                idade = int(input('Idade: '))
-                if idade < 0:
-                    print('Erro! Digite um número inteiro positivo.')
-                else:
-                    break
-            while True:
-                temperatura = float(input('Digite a temperatura: '))
+            nome = input('Digite o nome do paciente: ')
+            idade = int(input('Idade: '))
+            if idade < 0:
+                input('Erro! Digite um número inteiro positivo.')
+                print('\033c', end='')
+            else:
                 break
-            while True:
-                possui_doenca_cronica = str(input("Possui doença cronica? [S/N] "))
-                if possui_doenca_cronica.upper() == 'S' and len(possui_doenca_cronica) == 1:
-                    possui_doença_cronica = True
-                    break
-                elif possui_doenca_cronica.upper() == 'N' and len(possui_doenca_cronica) == 1:
-                    possui_doença_cronica = False
-                    break
-                else:
-                    print("Erro! Digite 'S' para Sim ou 'N' para Não.")
-            # cadastra_paciente(nome, idade, temperatura, possui_doenca_cronica)
-    except:
-        print()
+        while True:
+            temperatura = float(input('Digite a temperatura: '))
+            break
+        while True:
+            doenca_cronica = input('Possui doença cronica? [s/n] ')
+            if doenca_cronica == 's':
+                possui_doenca_cronica = True
+                break
+            if doenca_cronica == 'n':
+                possui_doenca_cronica = False
+                break
+        cadastra_paciente(nome, idade, temperatura, possui_doenca_cronica)
 
 interface_triagem()

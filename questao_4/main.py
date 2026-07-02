@@ -31,10 +31,12 @@
 # temperatura maior ou igual a 39°C;
 # idade maior ou igual a 60 anos e febre maior ou igual a 38°C;
 # possui doença crônica e temperatura maior ou igual a 38°C.
+
 # Prioridade média
 
 # temperatura entre 37.8°C e 38.9°C;
 # idade menor que 12 anos ou maior que 60 anos.
+
 # Prioridade baixa
 
 # demais casos.
@@ -81,19 +83,54 @@
 
 
 pacientes = []
+prioridade_alta = []
+prioridade_media = []
+prioridade_baixa = []
+contagem_paciente = 0
 
 def cadastra_paciente(nome: str, idade: int, temperatura: float, possui_doenca_cronica: bool):
     pacientes.append((nome, idade, temperatura, possui_doenca_cronica))
 
 
-def interface_triagem():
+def classifica_prioridade(contagem_paciente: int, pacientes: list):
+    global prioridade_alta
+    global prioridade_media
+    global prioridade_baixa
+    paciente = pacientes[contagem_paciente]
+    if paciente[2] > 39:
+        prioridade_alta.append((paciente[0], 'Prioridade Alta'))
+    if paciente[1] >= 60 and paciente[2] >= 38:
+        prioridade_alta.append((paciente[0], 'Prioridade Alta'))
+    if paciente[3] == True and paciente[2] >= 38:
+        prioridade_alta.append((paciente[0], 'Prioridade Alta'))
+    if paciente[1] < 12 or paciente[1] > 60:
+        prioridade_media.append((paciente[0], 'Prioridade Média'))
+    if paciente[2] >= 37.8 and paciente[2] <= 38.9:
+        prioridade_media.append((paciente[0], 'Prioridade Média'))
+    prioridade_baixa.append((paciente[0], 'Prioridade Baixa'))
+    
+
+def interface_menu():
     print('\033c', end='')
+    input ('Selecione a tarefa desejada: '
+           '1 - Triagem de Pacientes; '
+           '2 - Ver Pacientes em Atendimento por Prioridade'
+           '3 - ')
+
+
+def triagem():
+    print('\033c', end='')
+    global contagem_paciente
+    global pacientes
     while True:
         print('\n'
                 '===== TRIAGEM DE PACIENTES ====='
                 '\n')
         while True:
             nome = input('Digite o nome do paciente: ')
+            if nome in '1234567890':
+                input('Erro! Digite somente caracteres alfanuméricos.')
+                print('\033c', end='')
             idade = int(input('Idade: '))
             if idade < 0:
                 input('Erro! Digite um número inteiro positivo.')
@@ -112,5 +149,9 @@ def interface_triagem():
                 possui_doenca_cronica = False
                 break
         cadastra_paciente(nome, idade, temperatura, possui_doenca_cronica)
+        contagem_paciente = len(pacientes)
+        classifica_prioridade(contagem_paciente, pacientes)
+        break
 
-interface_triagem()
+
+interface_menu()
